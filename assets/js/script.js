@@ -106,9 +106,7 @@ quiz.style.display = "none";
 //create quiz
 function renderNewQuestion(index) {
     if (index === 4) {
-        // title.style.display = "none";
-        // quiz.style.display = "none";
-        // title.style.display = "block";
+        stopTimer();
         results.style.display = "block";
         results.innerHTML = " Well done! your score is: " + score;
         var getName = document.createElement("input");
@@ -117,46 +115,49 @@ function renderNewQuestion(index) {
         submitButton.textContent = "Submit";
         results.appendChild(getName);
         results.appendChild(submitButton);
-        submitButton.addEventListener("submit", submitScore);
+        // submitButton.addEventListener("submit", submitScore)
 
         results.style.display = "block";
-        stopTimer();
-        showFeedBack();
+        submitButton.addEventListener("click", function () {
+            localStorage.setItem(getName.value, score);
+            viewHighScores();
+        })
 
-    }
+    } else {
 
-    introSection.style.display = "none";
-    var title = document.createElement("h1");
-    title.innerHTML = questions[index].title;
-    var listOfAnswers = document.createElement("ol");
+        introSection.style.display = "none";
+        var title = document.createElement("h1");
+        title.innerHTML = questions[index].title;
+        var listOfAnswers = document.createElement("ol");
 
-    for (var i = 0; i < 4; i++) {
-        var singleAnswer = document.createElement("button");
-        singleAnswer.innerHTML = questions[index].answers[i].label
-        if (questions[index].answers[i].isCorrect) {
-            singleAnswer.addEventListener("click", function () {
-                feedback.innerHTML = "Correct!"
-                showFeedBack(true);
-                score += 25;
-                title.style.display = "none";
-                listOfAnswers.style.display = "none";
-                renderNewQuestion(index + 1)
-            })
-        } else {
-            singleAnswer.addEventListener("click", function () {
-                feedback.innerHTML = "Wrong!"
-                showFeedBack(false);
-                counter += 15;
-                title.style.display = "none";
-                listOfAnswers.style.display = "none";
-                renderNewQuestion(index + 1)
-            })
+        for (var i = 0; i < 4; i++) {
+            var singleAnswer = document.createElement("button");
+            singleAnswer.innerHTML = questions[index].answers[i].label
+            if (questions[index].answers[i].isCorrect) {
+                singleAnswer.addEventListener("click", function () {
+                    feedback.innerHTML = "Correct!"
+                    showFeedBack(true);
+                    score += 25;
+                    title.style.display = "none";
+                    listOfAnswers.style.display = "none";
+                    renderNewQuestion(index + 1)
+                })
+            } else {
+                singleAnswer.addEventListener("click", function () {
+                    feedback.innerHTML = "Wrong!"
+                    showFeedBack(false);
+                    counter += 15;
+                    title.style.display = "none";
+                    listOfAnswers.style.display = "none";
+                    renderNewQuestion(index + 1)
+                })
+            }
+            listOfAnswers.appendChild(singleAnswer);
         }
-        listOfAnswers.appendChild(singleAnswer);
+        quiz.appendChild(title);
+        quiz.appendChild(listOfAnswers);
+        quiz.style.display = "block";
     }
-    quiz.appendChild(title);
-    quiz.appendChild(listOfAnswers);
-    quiz.style.display = "block";
 }
 
 //start
@@ -168,13 +169,9 @@ startButton.addEventListener("click", function () {
 
 //score
 
-
-function submitScore() {
-    localStorage.push(document.getElementById(getName).value + " " + score);
-    viewHighScores();
-}
-
 function viewHighScores() {
+    timerEl.style.display = "none";
+    results.style.display = " none";
     record.style.display = "block";
 }
 
@@ -204,6 +201,11 @@ function record() {
     quiz.style.display = "none";
     results.style.display = "none";
     record.style.display = "block";
+
+    output = "";
+    for (var i = 0; i < localStorage.length; i++) {
+        console.log(123);
+    }
 
 }
 
