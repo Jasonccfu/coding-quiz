@@ -1,0 +1,25 @@
+body {
+    margin: 20px !important;
+    background-color: antiquewhite;
+}
+
+timer {
+
+    position: fixed;
+
+}
+
+button {
+
+    background: purple;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: rgb(206, 5, 206);
+
+}
+
+input {
+    border-radius: 4px;
+}
